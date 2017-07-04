@@ -7,6 +7,10 @@ Irsa.ROW_LIMIT = 10000
 
 
 def get_center(ra,dec):
+	"""
+	   This function returns the optimal position in the CHAT CCD for
+	   a given traget based on the comparison stars to make good differential photometry
+	"""
 	ccdx = 2048
 	ccdy = 2064
 	d1 = 20
@@ -55,7 +59,7 @@ def get_center(ra,dec):
 			cond = False
 		else:
 			ni+=0.1
-	print table
+	#print table
 	#print table
 	w2 = (table['j_h']-target['j_h'])/target['j_h']
 	w3 = (table['j_k']-target['j_k'])/target['j_k']
@@ -139,4 +143,8 @@ def get_center(ra,dec):
 			I.append(i)
 			#print c.ra.hms, c.dec.dms, comp['j_m']
 	I = np.array(I)
-	return cenra,cendec,infocus,subtable[I]
+
+	tarx = 0.5*ccdx + (ra - cenra) / (scale/3600.) 
+	tary = 0.5*ccdy + (dec - cendec) / (scale/3600.)
+	#return cenra,cendec,infocus,subtable[I]
+	return tarx, tary 
